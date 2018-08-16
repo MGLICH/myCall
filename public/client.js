@@ -16,7 +16,7 @@ const PORT_NUMBER = 3000;
 // Get our hostname
 
 var myHostname = window.location.hostname;
-console.log("Hostname: " + myHostname);
+console.log("Server hostname: " + myHostname);
 
 // WebSocket chat/signaling channel variables.
 
