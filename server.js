@@ -135,6 +135,19 @@ function sendUserListToAll() {
   }
 }
 
+// A mapping of file extensions to MIME types
+
+const mimeTypeMap = {
+  ".html":  "text/html",
+  ".txt":   "text/plain",
+  ".js":    "text/javascript",
+  ".json":  "application/json",
+  ".css":   "text/css",
+  ".png":   "image/png",
+  ".jpg":   "image/jpeg",
+  ".svg":   "image/svg+xml"
+};
+
 /*=================================================================================
 **
 ** Normally, you use HTTPS when creating a WebSocket server, as the protocol
@@ -200,9 +213,39 @@ var http = require('http');
 // want to, you can return real HTML here and serve Web content.
 
 var httpServer = http.createServer(function(request, response) {
-  log("Received request for " + request.url);
-  response.writeHead(404);
-  response.end();
+  log(`Received ${request.method} request for ${request.url}`);
+
+  const parsedURL = url.parse(request.url);
+  
+  var path = `.${parsedURL.pathname}`;
+  const fileExtension = path.parse(pathname).ext;
+  
+  // Does the specified file exist?
+  
+  fs.exists(pathname, function(existFlag) {
+    if (!existFlag) {
+      response.statusCode = 404;
+      response.end(`Not found: ${pathname}`);
+      return;
+    }
+    
+    // If the path is a directory, see if there's an index.html file in that
+    // directory and we'll use that.
+    
+    if (fs.statSync(pathname).isDirectory()) {
+      pathname += "/index" + fileExtension;
+    }
+    
+    // Read the file and send it.
+    
+    if (fs.readFile(pathname), function(err, data) {
+      if (err) {
+        result.statusCode = 500;
+        result.end(`Error 500 getting the file ${err}.`);
+      } else {
+        result.setHeader("Content-Type", mimeTypeMap[ext] || "text/plain");
+        result.end(data);
+      }
 });
 
 // Spin up the HTTPS server on the port assigned to this sample.
