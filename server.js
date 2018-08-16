@@ -28,9 +28,10 @@
 
 const PORT_NUMBER = 3000;
 
-var url = require('url');
-var fs = require('fs');
-var WebSocketServer = require('websocket').server;
+const url = require('url');
+const fs = require('fs');
+const path = require('path');
+const WebSocketServer = require('websocket').server;
 
 // Used for managing the text chat user list.
 
