@@ -236,21 +236,29 @@ var httpServer = http.createServer(function(request, response) {
     // If the path is a directory, see if there's an index.html file in that
     // directory and we'll use that.
     
-    if (fs.statSync(pathname).isDirectory()) {
-      pathname += "/index" + fileExtension;
-    }
-    
-    // Read the file and send it.
-    
-    fs.readFile(pathname), function(err, data) {
+    fs.stat(pathname, function(err, stats) {
       if (err) {
         response.statusCode = 500;
         response.end(`Error 500 getting the file ${err}.`);
       } else {
-        response.setHeader("Content-Type", mimeTypeMap[fileExtension] || "text/plain");
-        response.end(data);
+        if (stats.isDirectory()) {
+          pathname += "views/index" + fileExtension;
+        }
+    
+        // Read the file and send it.
+
+        console.log("Handling request for file " + pathname);
+        fs.readFile(pathname, function(err, data) {
+          if (err) {
+            response.statusCode = 500;
+            response.end(`Error 500 getting the file ${err}.`);
+          } else {
+            response.setHeader("Content-Type", mimeTypeMap[fileExtension] || "text/plain");
+            response.end(data);
+          }
+        });
       }
-    };
+    })
   });
 });
 
