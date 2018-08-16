@@ -134,6 +134,10 @@ function sendUserListToAll() {
   }
 }
 
+/*=================================================================================
+**
+** Normally, you want to u
+
 // Load the key and certificate data to be used for our HTTPS/WSS
 // server.
 
@@ -141,6 +145,7 @@ var httpsOptions = {
   key: fs.readFileSync("/etc/pki/tls/private/mdn.key"),
   cert: fs.readFileSync("/etc/pki/tls/certs/mdn.crt")
 };
+
 
 // Our HTTPS server does nothing but service WebSocket
 // connections, so every request just returns 404. Real Web
