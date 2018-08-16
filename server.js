@@ -217,8 +217,12 @@ var httpServer = http.createServer(function(request, response) {
 
   const parsedURL = url.parse(request.url);
   
-  var path = `.${parsedURL.pathname}`;
-  const fileExtension = path.parse(pathname).ext;
+  var pathname = `.${parsedURL.pathname}`;
+  var fileExtension = path.parse(pathname).ext;
+  
+  if (!fileExtension) {
+    fileExtension = ".html";
+  }
   
   // Does the specified file exist?
   
@@ -238,15 +242,15 @@ var httpServer = http.createServer(function(request, response) {
     
     // Read the file and send it.
     
-    if (fs.readFile(pathname), function(err, data) {
+    fs.readFile(pathname), function(err, data) {
       if (err) {
-        result.statusCode = 500;
-        result.end(`Error 500 getting the file ${err}.`);
+        response.statusCode = 500;
+        response.end(`Error 500 getting the file ${err}.`);
       } else {
-        result.setHeader("Content-Type", mimeTypeMap[ext] || "text/plain");
-        result.end(data);
+        response.setHeader("Content-Type", mimeTypeMap[fileExtension] || "text/plain");
+        response.end(data);
       }
-    }
+    };
   });
 });
 
