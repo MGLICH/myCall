@@ -9,7 +9,8 @@
   "author": "Eric Shepherd / Mozilla",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "install": "cp node_modules/webrtc-adapter/out/adapter.js public/adapter.js"
   },
   "dependencies": {
     "express": "^4.16.3",
