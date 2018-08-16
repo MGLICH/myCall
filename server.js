@@ -26,8 +26,8 @@
 
 "use strict";
 
-//var http = require('http');
-var https = require('https');
+const PORT_NUMBER = 3000;
+
 var url = require('url');
 var fs = require('fs');
 var WebSocketServer = require('websocket').server;
@@ -136,7 +136,14 @@ function sendUserListToAll() {
 
 /*=================================================================================
 **
-** Normally, you want to u
+** Normally, you use HTTPS when creating a WebSocket server, as the protocol
+** requires a secure connection. However, when deployed on Glitch, you have
+** to use HTTP, and the Glitch proxy will adapt this into HTTPS automatically.
+**
+** This commented-out code is the HTTPS version of the server setup.
+**
+
+var https = require('https');
 
 // Load the key and certificate data to be used for our HTTPS/WSS
 // server.
@@ -161,8 +168,8 @@ var httpsServer = https.createServer(httpsOptions, function(request, response) {
 // Spin up the HTTPS server on the port assigned to this sample.
 // This will be turned into a WebSocket port very shortly.
 
-httpsServer.listen(6503, function() {
-  log("Server is listening on port 6503");
+httpsServer.listen(PORT_NUMBER, function() {
+  log("Server is listening on port " + PORT_NUMBER);
 });
 
 // Create the WebSocket server by converting the HTTPS server into one.
@@ -171,6 +178,50 @@ var wsServer = new WebSocketServer({
   httpServer: httpsServer,
   autoAcceptConnections: false
 });
+
+**
+** End of HTTPS setup code.
+**=================================================================================*/
+
+/*=================================================================================
+**
+** This is the HTTP version of the setup code, used only for deployments such
+** as Glitch, where the unencrypted HTTP is automatically converted to HTTPS by
+** a proxy.
+**
+**/
+
+var http = require('http');
+
+// Our HTTP server does nothing but service WebSocket
+// connections, so every request just returns 404. Real Web
+// requests are handled by the main server on the box. If you
+// want to, you can return real HTML here and serve Web content.
+
+var httpServer = http.createServer(function(request, response) {
+  log("Received request for " + request.url);
+  response.writeHead(404);
+  response.end();
+});
+
+// Spin up the HTTPS server on the port assigned to this sample.
+// This will be turned into a WebSocket port very shortly.
+
+httpServer.listen(PORT_NUMBER, function() {
+  log("Server is listening on port " + PORT_NUMBER);
+});
+
+// Create the WebSocket server by converting the HTTP server into one.
+
+var wsServer = new WebSocketServer({
+  httpServer: httpServer,
+  autoAcceptConnections: false
+});
+
+/*
+**
+** End of HTTP setup code.
+**=================================================================================*/
 
 // Set up a "connect" message handler on our WebSocket server. This is
 // called whenever a user connects to the server's port using the

@@ -11,6 +11,8 @@
 
 "use strict";
 
+const PORT_NUMBER = 3000;
+
 // Get our hostname
 
 var myHostname = window.location.hostname;
@@ -101,7 +103,7 @@ function connect() {
   if (document.location.protocol === "https:") {
     scheme += "s";
   }
-  serverUrl = scheme + "://" + myHostname + ":6503";
+  serverUrl = scheme + "://" + myHostname + ":" + PORT_NUMBER;
 
   connection = new WebSocket(serverUrl, "json");
 
