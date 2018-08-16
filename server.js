@@ -246,6 +246,8 @@ var httpServer = http.createServer(function(request, response) {
         result.setHeader("Content-Type", mimeTypeMap[ext] || "text/plain");
         result.end(data);
       }
+    }
+  });
 });
 
 // Spin up the HTTPS server on the port assigned to this sample.
