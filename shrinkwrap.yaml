@@ -1,5 +1,7 @@
 dependencies:
   express: 4.16.3
+  webrtc-adapter: 6.3.2
+  websocket: 1.0.26
 packages:
   /accepts/1.3.5:
     dependencies:
@@ -191,6 +193,10 @@ packages:
       node: '>= 0.10'
     resolution:
       integrity: sha1-4/o1e3c9phnybpXwSdBVxyeW+Gs=
+  /is-typedarray/1.0.0:
+    dev: false
+    resolution:
+      integrity: sha1-5HnICFjfDBsR3dppQPlgEfzaSpo=
   /media-typer/0.3.0:
     dev: false
     engines:
@@ -230,6 +236,10 @@ packages:
     dev: false
     resolution:
       integrity: sha1-VgiurfwAvmwpAd9fmGF4jeDVl8g=
+  /nan/2.10.0:
+    dev: false
+    resolution:
+      integrity: sha512-bAdJv7fBLhWC+/Bls0Oza+mvTaNQtP+1RyhhhvD95pgUJz6XM5IzgmxOkItJ9tkoCiplvAnXI1tNmmUD/eScyA==
   /negotiator/0.6.1:
     dev: false
     engines:
@@ -286,10 +296,23 @@ packages:
       node: '>= 0.8'
     resolution:
       integrity: sha1-vNYMd9Prk83gBQKVw/N5OJvIj4k=
+  /rtcpeerconnection-shim/1.2.13:
+    dependencies:
+      sdp: 2.8.0
+    dev: false
+    engines:
+      node: '>=6.0.0'
+      npm: '>=3.10.0'
+    resolution:
+      integrity: sha512-Xz4zQLZNs9lFBvqbaHGIjLWtyZ1V82ec5r+WNEo7NlIx3zF5M3ytn9mkkfYeZmpE032cNg3Vvf0rP8kNXUNd9w==
   /safe-buffer/5.1.1:
     dev: false
     resolution:
       integrity: sha512-kKvNJn6Mm93gAczWVJg7wH+wGYWNrDHdWvpUmHyEsgCtIwwo3bqPtV4tR5tuPaUhTOo/kvhVwd8XwwOllGYkbg==
+  /sdp/2.8.0:
+    dev: false
+    resolution:
+      integrity: sha512-wRSES07rAwKWAR7aev9UuClT7kdf9ZTdeUK5gTgHue9vlhs19Fbm3ccNEGJO4y2IitH4/JzS4sdzyPl6H2KQLw==
   /send/0.16.2:
     dependencies:
       debug: 2.6.9
@@ -344,6 +367,12 @@ packages:
       node: '>= 0.6'
     resolution:
       integrity: sha512-HRkVv/5qY2G6I8iab9cI7v1bOIdhm94dVjQCPFElW9W+3GeDOSHmy2EBYe4VTApuzolPcmgFTN3ftVJRKR2J9Q==
+  /typedarray-to-buffer/3.1.5:
+    dependencies:
+      is-typedarray: 1.0.0
+    dev: false
+    resolution:
+      integrity: sha512-zdu8XMNEDepKKR+XYOXAVPtWui0ly0NtohUscw+UmaHiAWT8hrV1rr//H6V+0DvJ3OQ19S979M0laLfX8rm82Q==
   /unpipe/1.0.0:
     dev: false
     engines:
@@ -362,8 +391,38 @@ packages:
       node: '>= 0.8'
     resolution:
       integrity: sha1-IpnwLG3tMNSllhsLn3RSShj2NPw=
+  /webrtc-adapter/6.3.2:
+    dependencies:
+      rtcpeerconnection-shim: 1.2.13
+      sdp: 2.8.0
+    dev: false
+    engines:
+      node: '>=6.0.0'
+      npm: '>=3.10.0'
+    resolution:
+      integrity: sha512-7pFMXpZCka7ScIQyk8Wo+fOr3OlKLtGd6YHqkHVT74zerpY2Siyds8sxsmkE0bNqsi/J1b0vDzN7WpB34dQzAA==
+  /websocket/1.0.26:
+    dependencies:
+      debug: 2.6.9
+      nan: 2.10.0
+      typedarray-to-buffer: 3.1.5
+      yaeti: 0.0.6
+    dev: false
+    engines:
+      node: '>=0.10.0'
+    requiresBuild: true
+    resolution:
+      integrity: sha512-fjcrYDPIQxpTnqFQ9JjxUQcdvR89MFAOjPBlF+vjOt49w/XW4fJknUoMz/mDIn2eK1AdslVojcaOxOqyZZV8rw==
+  /yaeti/0.0.6:
+    dev: false
+    engines:
+      node: '>=0.10.32'
+    resolution:
+      integrity: sha1-8m9ITXJoTPQr7ft2lwqhYI+/lXc=
 registry: 'https://registry.npmjs.org/'
 shrinkwrapMinorVersion: 8
 shrinkwrapVersion: 3
 specifiers:
   express: ^4.16.3
+  webrtc-adapter: ^6.3.2
+  websocket: ^1.0.26
