@@ -141,8 +141,8 @@ function sendUserListToAll() {
 // Create the HTTP server.
 
 var app = express();
-app.use(serveStatic("public"));
-app.use(serveStatic("views"));
+app.use(serveStatic(path.join(__dirname, "public")));
+app.use(serveStatic(path.join(__dirname, "views")));
 
 // Create the WebSocket server.
 
