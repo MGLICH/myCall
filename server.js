@@ -26,7 +26,6 @@
 
 "use strict";
 
-
 const url = require('url');
 const fs = require('fs');
 const path = require('path');
@@ -82,7 +81,7 @@ function sendToOneUser(target, msgString) {
 
   for (i=0; i<connectionArray.length; i++) {
     if (connectionArray[i].username === target) {
-      connectionArray[i].sendUTF(msgString);
+      connectionArray[i].send(msgString);
       break;
     }
   }
@@ -218,7 +217,7 @@ wss.on("connection", function connection(ws) {
             type: "rejectusername",
             name: msg.name
           };
-          connect.se(JSON.stringify(changeMsg));
+          connect.send(JSON.stringify(changeMsg));
         }
 
         // Set this connection's final username and send out the
@@ -247,7 +246,7 @@ wss.on("connection", function connection(ws) {
         sendToOneUser(msg.target, msgString);
       } else {
         for (i=0; i<connectionArray.length; i++) {
-          connectionArray[i].sendUTF(msgString);
+          connectionArray[i].send(msgString);
         }
       }
     }
