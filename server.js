@@ -149,7 +149,7 @@ app.use(serveStatic("views"));
 var expressWS = require('express-ws')(app);
 
 app.ws("/", function(ws, request) {
-  
+  console.log(ws);
   // Handle the "message" event, which contains a JSON message from a client.
   ws.on("message", function(message) {
     if (message.type === 'utf8') {
@@ -261,6 +261,7 @@ app.ws("/", function(ws, request) {
 
 app.listen(process.env.PORT);
 
+/*
 // Set up a "connect" message handler on our WebSocket server. This is
 // called whenever a user connects to the server's port using the
 // WebSocket protocol.
@@ -402,3 +403,4 @@ wsServer.on('request', function(request) {
     log(logMessage);
   });
 });
+*/
