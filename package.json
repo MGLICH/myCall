@@ -15,8 +15,8 @@
   "dependencies": {
     "express": "^4.16.3",
     "webrtc-adapter": "^6.3.2",
-    "express-ws": "^4.0.0",
-    "serve-static": "^1.13.2"
+    "serve-static": "^1.13.2",
+    "ws": "^6.0.0"
   },
   "engines": {
     "node": "8.x"

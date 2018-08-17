@@ -32,7 +32,7 @@ const fs = require('fs');
 const path = require('path');
 const process = require('process');
 const express = require('express');
-const serveStatic = require('serve-static');
+const WebSocketServer = require('ws').Server;
 
 const PORT_NUMBER = process.env.PORT;
 
@@ -141,8 +141,12 @@ function sendUserListToAll() {
 // Create the HTTP server.
 
 var app = express();
-app.use(serveStatic(path.join(__dirname, "public")));
-app.use(serveStatic(path.join(__dirname, "views")));
+var router = express.Router();
+
+app.use("/", router);
+app.use(express.static("views"));
+app.use(express.static("public"));
+
 log("HTTP server configured");
 
 // Create the WebSocket server.
