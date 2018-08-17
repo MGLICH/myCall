@@ -139,151 +139,22 @@ function sendUserListToAll() {
   }
 }
 
-// A mapping of file extensions to MIME types
+// Create the HTTP server to serve up the static content.
 
-const mimeTypeMap = {
-  ".html":  "text/html",
-  ".txt":   "text/plain",
-  ".js":    "text/javascript",
-  ".json":  "application/json",
-  ".css":   "text/css",
-  ".png":   "image/png",
-  ".jpg":   "image/jpeg",
-  ".svg":   "image/svg+xml"
-};
+var app = express();
+const expressWS = require('express-ws');
 
-/*=================================================================================
-**
-** Normally, you use HTTPS when creating a WebSocket server, as the protocol
-** requires a secure connection. However, when deployed on Glitch, you have
-** to use HTTP, and the Glitch proxy will adapt this into HTTPS automatically.
-**
-** This commented-out code is the HTTPS version of the server setup.
-**
+app.use(serveStatic("views"));
+app.use(serveStatic("public"));
 
-var https = require('https');
+// Create the WebSocket server for the chat service and
+// WebRTC signaling.
 
-// Load the key and certificate data to be used for our HTTPS/WSS
-// server.
-
-var httpsOptions = {
-  key: fs.readFileSync("/etc/pki/tls/private/mdn.key"),
-  cert: fs.readFileSync("/etc/pki/tls/certs/mdn.crt")
-};
-
-
-// Our HTTPS server does nothing but service WebSocket
-// connections, so every request just returns 404. Real Web
-// requests are handled by the main server on the box. If you
-// want to, you can return real HTML here and serve Web content.
-
-var httpsServer = https.createServer(httpsOptions, function(request, response) {
-  log("Received secure request for " + request.url);
-  response.writeHead(404);
-  response.end();
+app.ws("/", function(ws, request) {
+  //
 });
 
-// Spin up the HTTPS server on the port assigned to this sample.
-// This will be turned into a WebSocket port very shortly.
-
-httpsServer.listen(PORT_NUMBER, function() {
-  log("Server is listening on port " + PORT_NUMBER);
-});
-
-// Create the WebSocket server by converting the HTTPS server into one.
-
-var wsServer = new WebSocketServer({
-  httpServer: httpsServer,
-  autoAcceptConnections: false
-});
-
-**
-** End of HTTPS setup code.
-**=================================================================================*/
-
-/*=================================================================================
-**
-** This is the HTTP version of the setup code, used only for deployments such
-** as Glitch, where the unencrypted HTTP is automatically converted to HTTPS by
-** a proxy.
-**
-**/
-
-var http = require('http');
-
-// Our HTTP server does nothing but service WebSocket
-// connections, so every request just returns 404. Real Web
-// requests are handled by the main server on the box. If you
-// want to, you can return real HTML here and serve Web content.
-
-var httpServer = http.createServer(function(request, response) {
-  log(`Received ${request.method} request for ${request.url}`);
-
-  const parsedURL = url.parse(request.url);
-  
-  var pathname = `.${parsedURL.pathname}`;
-  var fileExtension = path.parse(pathname).ext;
-  
-  if (!fileExtension) {
-    fileExtension = ".html";
-  }
-  
-  // Does the specified file exist?
-  
-  fs.exists(pathname, function(existFlag) {
-    if (!existFlag) {
-      response.statusCode = 404;
-      response.end(`Not found: ${pathname}`);
-      return;
-    }
-    
-    // If the path is a directory, see if there's an index.html file in that
-    // directory and we'll use that.
-    
-    fs.stat(pathname, function(err, stats) {
-      if (err) {
-        response.statusCode = 500;
-        response.end(`Error 500 getting the file ${err}.`);
-      } else {
-        if (stats.isDirectory()) {
-          pathname += "views/index" + fileExtension;
-        }
-    
-        // Read the file and send it.
-
-        console.log("Handling request for file " + pathname);
-        fs.readFile(pathname, function(err, data) {
-          if (err) {
-            response.statusCode = 500;
-            response.end(`Error 500 getting the file ${err}.`);
-          } else {
-            response.setHeader("Content-Type", mimeTypeMap[fileExtension] || "text/plain");
-            response.end(data);
-          }
-        });
-      }
-    })
-  });
-});
-
-// Spin up the HTTPS server on the port assigned to this sample.
-// This will be turned into a WebSocket port very shortly.
-
-httpServer.listen(PORT_NUMBER, function() {
-  log("Server is listening on port " + PORT_NUMBER);
-});
-
-// Create the WebSocket server by converting the HTTP server into one.
-
-var wsServer = new WebSocketServer({
-  httpServer: httpServer,
-  autoAcceptConnections: false
-});
-
-/*
-**
-** End of HTTP setup code.
-**=================================================================================*/
+app.listen(PORT_NUMBER);
 
 // Set up a "connect" message handler on our WebSocket server. This is
 // called whenever a user connects to the server's port using the
