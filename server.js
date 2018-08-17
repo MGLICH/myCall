@@ -149,13 +149,17 @@ app.use(express.static("public"));
 
 log("HTTP server configured");
 
+var httpServer = app.listen(PORT_NUMBER, function() {
+  log("Static web server now listening");
+});
+
 // Create the WebSocket server.
 
-var expressWS = require('express-ws')(app);
+const wss = new WebSocketServer({ server: httpServer });
 
-app.ws("/", function(ws, request) {
-  log(ws);
-  // Handle the "message" event, which contains a JSON message from a client.
+wss.on("connection", function connection(ws) {
+  log("Incoming connection...");
+  
   ws.on("message", function(message) {
     if (message.type === 'utf8') {
       log("Received Message: " + message.utf8Data);
@@ -261,11 +265,6 @@ app.ws("/", function(ws, request) {
   });
 
 });
-
-// Listen for connections.
-
-app.listen(process.env.PORT);
-log("Started up");
 
 /*
 // Set up a "connect" message handler on our WebSocket server. This is
