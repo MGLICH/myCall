@@ -33,7 +33,6 @@ const path = require('path');
 const process = require('process');
 const express = require('express');
 const serveStatic = require('serve-static');
-const WebSocketServer = require('websocket').server;
 
 const PORT_NUMBER = process.env.PORT;
 
@@ -139,22 +138,9 @@ function sendUserListToAll() {
   }
 }
 
-// Create the HTTP server to serve up the static content.
+// Create the HTTP server.
 
-var app = express();
-const expressWS = require('express-ws');
 
-app.use(serveStatic("views"));
-app.use(serveStatic("public"));
-
-// Create the WebSocket server for the chat service and
-// WebRTC signaling.
-
-app.ws("/", function(ws, request) {
-  //
-});
-
-app.listen(PORT_NUMBER);
 
 // Set up a "connect" message handler on our WebSocket server. This is
 // called whenever a user connects to the server's port using the
