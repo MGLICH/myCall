@@ -160,6 +160,19 @@ const wss = new WebSocketServer({ server: httpServer });
 wss.on("connection", function connection(ws) {
   log("Incoming connection...");
   
+  connectionArray.push(ws);
+  ws.clientID = nextID;
+  nextID++;
+  
+  // Tell the client that it's connected and send it its ID token. It will
+  // send back its username in response.
+  
+  var msg = {
+    type: "id",
+    id: ws.clientID
+  };
+  ws.send(JSON.stringify(msg));
+  
   ws.on("message", function(message) {
     if (message.type === 'utf8') {
       log("Received Message: " + message.utf8Data);

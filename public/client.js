@@ -103,7 +103,7 @@ function connect() {
   if (document.location.protocol === "https:") {
     scheme += "s";
   }
-  serverUrl = scheme + "://" + myHostname + ":" + PORT_NUMBER;
+  serverUrl = scheme + "://" + myHostname;// + ":" + PORT_NUMBER;
 
   connection = new WebSocket(serverUrl, "json");
 
