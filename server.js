@@ -149,6 +149,8 @@ app.use(serveStatic("views"));
 var expressWS = require('express-ws')(app);
 
 app.ws("/", function(ws, request) {
+  
+  // Handle the "message" event, which contains a JSON message from a client.
   ws.on("message", function(message) {
     if (message.type === 'utf8') {
       log("Received Message: " + message.utf8Data);
@@ -229,6 +231,30 @@ app.ws("/", function(ws, request) {
       }
     }
   });
+  
+  // Handle the WebSocket "close" event; this means a user has logged off
+  // or has been disconnected.
+  ws.on('close', function(reason, description) {
+    // First, remove the connection from the list of connections.
+    connectionArray = connectionArray.filter(function(el, idx, ar) {
+      return el.connected;
+    });
+
+    // Now send the updated user list. Again, please don't do this in a
+    // real application. Your users won't like you very much.
+    sendUserListToAll();
+
+    // Build and output log output for close information.
+
+    var logMessage = "Connection closed: " + connection.remoteAddress + " (" +
+                     reason;
+    if (description !== null && description.length !== 0) {
+      logMessage += ": " + description;
+    }
+    logMessage += ")";
+    log(logMessage);
+  });
+
 });
 
 // Listen for connections.
