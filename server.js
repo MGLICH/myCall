@@ -260,6 +260,7 @@ app.ws("/", function(ws, request) {
 // Listen for connections.
 
 app.listen(process.env.PORT);
+log("Started up");
 
 /*
 // Set up a "connect" message handler on our WebSocket server. This is
