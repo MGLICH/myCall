@@ -246,7 +246,7 @@ app.ws("/", function(ws, request) {
 
     // Build and output log output for close information.
 
-    var logMessage = "Connection closed: " + connection.remoteAddress + " (" +
+    var logMessage = "Connection closed: " + ws.remoteAddress + " (" +
                      reason;
     if (description !== null && description.length !== 0) {
       logMessage += ": " + description;
