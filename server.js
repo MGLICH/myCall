@@ -143,13 +143,14 @@ function sendUserListToAll() {
 var app = express();
 app.use(serveStatic(path.join(__dirname, "public")));
 app.use(serveStatic(path.join(__dirname, "views")));
+log("HTTP server configured");
 
 // Create the WebSocket server.
 
 var expressWS = require('express-ws')(app);
 
 app.ws("/", function(ws, request) {
-  console.log(ws);
+  log(ws);
   // Handle the "message" event, which contains a JSON message from a client.
   ws.on("message", function(message) {
     if (message.type === 'utf8') {
