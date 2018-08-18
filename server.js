@@ -34,6 +34,7 @@ const express = require('express');
 const WebSocketServer = require('ws').Server;
 
 const PORT_NUMBER = process.env.PORT;
+const CONNECTION_TIMEOUT = (5 * 60) * 1000000;      // WebSocket server timeout: 5 minutes
 
 // Used for managing the text chat user list.
 
@@ -153,6 +154,11 @@ var httpServer = app.listen(PORT_NUMBER, function() {
 });
 
 // Create the WebSocket server.
+
+const wssOptions = {
+  server: httpServer,
+  timeout: CONNECTION_TIMEOUT
+};
 
 const wss = new WebSocketServer({ server: httpServer });
 
