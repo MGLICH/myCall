@@ -113,7 +113,7 @@ function connect() {
   };
 
   connection.onmessage = function(evt) {
-    var chatFrameDocument = document.getElementById("chatbox").contentDocument;
+    var chatBox = document.getElementById("chatbox");
     var text = "";
     var msg = JSON.parse(evt.data);
     log("Message received: ");
@@ -176,8 +176,8 @@ function connect() {
     // scroll the chat panel so that the new text is visible.
 
     if (text.length) {
-      chatFrameDocument.write(text);
-      document.getElementById("chatbox").contentWindow.scrollByPages(1);
+      chatBox.innerHTML += text;
+      document.getElementById("chatbox").scrollByPages(1);
     }
   };
 }
@@ -221,7 +221,8 @@ function createPeerConnection() {
   myPeerConnection = new RTCPeerConnection({
     iceServers: [     // Information about ICE servers - Use your own!
       {
-        urls: "turn:" + myHostname,  // A TURN server
+        //urls: "turn:" + myHostname,  // A TURN server
+        urls: "stun:stun.stunprotocol.org",
         username: "webrtc",
         credential: "turnserver"
       }
