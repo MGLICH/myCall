@@ -177,7 +177,7 @@ function connect() {
 
     if (text.length) {
       chatBox.innerHTML += text;
-      document.getElementById("chatbox").scrollByPages(1);
+      chatBox.scrollTop = chatBox.scrollHeight - chatBox.clientHeight;
     }
   };
 }
