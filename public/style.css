@@ -39,6 +39,12 @@
 	border-top:2px solid #000000;
 }
 
+/* The box containing both the user list and chat box */
+
+.chatgroup {
+  height: 
+}
+
 /* The list of users on the left side */
 
 #userlistbox {
@@ -46,7 +52,7 @@
   width:100%;
   height:740px;
   margin-top:0px;
-  margin-right:10px;
+  margin-right:1rem;
   padding:1px;
   list-style:none;
   display:block;
@@ -60,10 +66,10 @@
   padding: 1px;
 }
 
-/* The <iframe> containing the chat scrollback */
+/* The box containing the chat scrollback */
 #chatbox {
   width:100%;
-  height:7300px;
+  height:730px;
   border: 1px solid black;
   font-family:'Open Sans', 'Lucida Grande', Arial, Helvetica, sans-serif;
   overflow: scroll;
