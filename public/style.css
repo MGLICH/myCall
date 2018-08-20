@@ -15,10 +15,10 @@
 
  html {
    font-family:'Open Sans', 'Lucida Grande', Arial, Helvetica, sans-serif;
- }
+/* }
 
 html, body {
-  height: 100%;
+  height: 100*/%;
 }
 
 .mdn-disclaimer {
@@ -67,7 +67,7 @@ html, body {
   grid-template-columns: 16rem 1fr 500px;
   grid-template-rows: 6rem 1fr 5rem;
   grid-gap: 1r
-  grid-template-areas:""infobo . .x" "userlistbox chatbox camera-box" "empty-container chat-controls-container camera-box";
+  grid-template-areas:""infobo infobox infoboxx" "userlistbox chatbox camera-box" "empty-container chat-controls-container camera-box";
 }
 
 /* The individual containers for the grid */
