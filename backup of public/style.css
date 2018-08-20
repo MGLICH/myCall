@@ -85,7 +85,7 @@
 
 /* The video panel */
 .camera-box {
-  width: 100%;
+  width: 500px;
   height: 760px;
   display:block;
   vertical-align:top;
@@ -95,11 +95,11 @@
 
 /* The main incoming video box */
 #received_video {
-  width: calc(100% - 2rem);
+  width: 480px;
   height: 360px;
   border: 1px solid black;
   box-shadow: 2px 2px 3px black;
-  right:10px;
+  left:10px;
   position:absolute;
 }
 
