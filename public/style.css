@@ -41,6 +41,7 @@
 
 .chatgroup {
   height: 740px;
+  width: calc(100% - 2em);
   padding: 0;
 }
 
@@ -66,9 +67,9 @@
 
 /* The box containing the chat scrollback */
 #chatbox {
+  border: 1px solid black;
   width:100%;
   height:100%;
-  border: 1px solid black;
   overflow: scroll;
   padding: 5px;
   margin-left: 1rem;
