@@ -63,17 +63,17 @@
   grid-template-columns: 16rem 1fr 500px;
   grid-template-rows: 1fr 5rem;
   grid-gap: 1rem;
-  grid-template-areas: "userlistbox chat-container camera-box" "empty-container chat-controls-container camera-box";
+  grid-template-areas: "userlistbox chatbox camera-box" "empty-container chat-controls-container camera-box";
 }
 
 /* The individual containers for the grid */
 
 /*.userlist-container {
   grid-area: userlist-container;
-}*/
+}
 .chat-container {
   grid-area: chat-container;
-}
+}*/
 .camera-box {
   grid-area: camera-box;
 }
@@ -106,12 +106,12 @@
 }
 
 /* The box containing the chat scrollback */
-#chatbox {
+.chatbox {
   border: 1px solid black;
   width:100%;
   height:100%;
   overflow: scroll;
-  padding: 5px;
+  padding: 1px;
   /*margin-left: 1rem;
   margin-right: 1rem;*/
 }

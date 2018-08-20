@@ -113,7 +113,7 @@ function connect() {
   };
 
   connection.onmessage = function(evt) {
-    var chatBox = document.getElementById("chatbox");
+    var chatBox = document.querySelector(".chatbox");
     var text = "";
     var msg = JSON.parse(evt.data);
     log("Message received: ");
