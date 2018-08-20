@@ -389,7 +389,7 @@ function handleICEGatheringStateChangeEvent(event) {
 function handleUserlistMsg(msg) {
   var i;
 
-  var listElem = document.getElementById("userlistbox");
+  var listElem = document.querySelector(".userlistbox");
 
   // Remove all current list members. We could do this smarter,
   // by adding and updating users instead of rebuilding from
