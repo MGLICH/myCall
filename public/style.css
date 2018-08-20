@@ -37,12 +37,51 @@
 	border-top:2px solid #000000;
 }
 
-/* The box containing both the user list and chat box */
+/* Uncomment these two blocks to make the grid visible with
+   each box's name 
+/*
+.grid-container * {
+  border: 1px solid #ccc;
+}
 
-.chatgroup {
-  height: 740px;
-  width: calc(100% - 2em);
-  padding: 0;
+.grid-container div:after {
+  content: attr(class);
+  color: #888;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  font-family: arial;
+}*/
+
+/* The grid that contains it all */
+
+
+.grid-container {
+  display: grid;
+  height: 100%;
+  grid-template-columns: 16rem 1fr 500px;
+  grid-template-rows: 1fr 5rem;
+  grid-gap: 1rem;
+  grid-template-areas: "userlist-container chat-container camera-box" "empty-container chat-controls-container camera-box";
+}
+
+/* The individual containers for the grid */
+
+.userlist-container {
+  grid-area: userlist-container;
+}
+.chat-container {
+  grid-area: chat-container;
+}
+.camera-box {
+  grid-area: camera-box;
+}
+.chat-controls-container {
+  grid-area: chat-controls-container;
+}
+.empty-container {
+  grid-area: empty-container;
 }
 
 /* The list of users on the left side */
