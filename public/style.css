@@ -38,7 +38,8 @@
 }
 
 /* Uncomment these two blocks to make the grid visible with
-   each box's name 
+   each box's name contained in it */
+
 /*
 .grid-container * {
   border: 1px solid #ccc;
@@ -55,7 +56,6 @@
 }*/
 
 /* The grid that contains it all */
-
 
 .grid-container {
   display: grid;
@@ -147,8 +147,8 @@
   width: 120px;
   height: 90px;
   position: absolute;
-  top: 10px;
-  left: 20px;
+  top: 1rem;
+  left: 2rem;
   border: 1px solid rgba(255, 255, 255, 0.75);
   box-shadow: 0 0 4px black;
 }
