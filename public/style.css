@@ -1,4 +1,4 @@
-. . /*
+/*
     WebSocket chat client
 
     WebSocket and WebRTC based multi-user chat sample with two-way video
@@ -11,11 +11,11 @@
 
     Any copyright is dedicated to the Public Domain.
     http:   creativecommons.org/publicdomain/zero/1.0/
- }
+*/
 
 html, body {
-  height: 10  font-family:'Open Sans', 'Lucida Grande', Arial, Helvetica, sans-serif;
-0%;
+  height: 100%;
+  font-family:'Open Sans', 'Lucida Grande', Arial, Helvetica, sans-serif;
 }
 
 .mdn-disclaimer {
@@ -35,9 +35,12 @@ html, body {
 	font-weight:normal;
 	font-size:12px;
 	text-align:right;
-	border-top:2px solid #000000;*/
+	border-top:2px solid #000000;
+}
 
-/* The grid that contains it all .container {
+/* The grid that contains it all */
+
+.container {
   display: grid;
   width: 100%;
   height: 100%;
@@ -45,12 +48,13 @@ html, body {
   "userlistbox chatbox video-container"
   "empty-container chat-controls video-container";
   grid-template-columns: 16em 1fr 500px;
-  grid-template-rows: 11em 1fr 5em;
+  grid-template-rows: 16em 1fr 5em;
   grid-gap: 1rem;
 }
 
 .infobox {
   grid-area: infobox;
+  overflow: auto;
 }
 
 .userlistbox {
@@ -142,6 +146,7 @@ html, body {
 .empty-container {
   grid-area: empty-container;
 }
+
 .chat-controls {
   grid-area: chat-controls;
   width: 100%;
