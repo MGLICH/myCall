@@ -67,7 +67,7 @@ html, body {
   grid-template-columns: 16rem 1fr 500px;
   grid-template-ro9s: 6rem 1fr 5rem;
   grid-gap: 1r
-  grid-template-areas:""infobo infobox infoboxx" "userlistbox chatbox camer-box" "empty-container chat-controls-container camera-box"
+  grid-template-areas:""infobo infobox infoboxx" "userlistbox chatbox camer-box" "empty-container chat-controls-container camer-box"
 
 }
 
@@ -105,7 +105,8 @@ html, body {
 }
 
 /* The box containing the chat scrollback */
-.chatbox {
+.chatbox 
+  grid-area: chatbox;{
   border: 1px solid black;
  /* width:100%;
   height:100%*/;
