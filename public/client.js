@@ -46,7 +46,8 @@ var targetUsername = null;      // To store username of other peer
 var myPeerConnection = null;    // RTCPeerConnection
 
 // To work both with and without addTrack() we need to note
-// if it's available
+// if it's available. addTrack() was added in newer versions of
+// the WebRTC specification.
 
 var hasAddTrack = false;
 
@@ -103,7 +104,14 @@ function connect() {
   if (document.location.protocol === "https:") {
     scheme += "s";
   }
-  serverUrl = scheme + "://" + myHostname;// + ":" + PORT_NUMBER;
+  
+  // Build the URL of the WebSocket server; in this case, it's the same
+  // as the web server. Be sure to add ":<port number>" if the WebSocket
+  // service is on a different port.
+  
+  serverUrl = scheme + "://" + myHostname;
+  
+  // Connect to the WebSocket server, using the "json" protocol.
 
   connection = new WebSocket(serverUrl, "json");
 
@@ -112,6 +120,9 @@ function connect() {
     document.getElementById("send").disabled = false;
   };
 
+  // Handle the "message" WebSocket event. This occurs when the
+  // chat/signaling server sends a JSON message to the client.
+  
   connection.onmessage = function(evt) {
     var chatBox = document.querySelector(".chatbox");
     var text = "";
