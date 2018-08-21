@@ -255,10 +255,7 @@ function createPeerConnection() {
   myPeerConnection = new RTCPeerConnection({
     iceServers: [     // Information about ICE servers - Use your own!
       {
-        //urls: "turn:" + myHostname,  // A TURN server
-        urls: "stun:stun.stunprotocol.org",
-        username: "webrtc",
-        credential: "turnserver"
+        urls: "stun:stun.stunprotocol.org"
       }
     ]
   });
