@@ -560,7 +560,6 @@ function invite(evt) {
     navigator.mediaDevices.getUserMedia(mediaConstraints)
     .then(function(localStream) {
       log("-- Local video stream obtained");
-      document.getElementById("local_video").src = window.URL.createObjectURL(localStream);
       document.getElementById("local_video").srcObject = localStream;
 
       if (hasAddTrack) {
