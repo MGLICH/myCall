@@ -310,9 +310,7 @@ function handleNegotiationNeededEvent() {
   .catch(reportError);
 }
 
-// Called by the WebRTC layer when events occur on the media tracks
-// on our WebRTC call. This includes when streams are added to and
-// removed from the call.
+// Called by the WebRTC layer when tracks are added to the connection.
 //
 // track events include the following fields:
 //
