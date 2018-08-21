@@ -327,7 +327,7 @@ function handleTrackEvent(event) {
 function handleRemoveTrackEvent(event) {
   log("*** Track removed");
   
-  if (
+  var stream = event.track.streams
   closeVideoCall();
 }
 
