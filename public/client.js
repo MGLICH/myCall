@@ -260,27 +260,15 @@ function createPeerConnection() {
     ]
   });
 
-  // Do we have addTrack()? If not, we will use streams instead.
-
-  hasAddTrack = (myPeerConnection.addTrack !== undefined);
-
   // Set up event handlers for the ICE negotiation process.
 
   myPeerConnection.onicecandidate = handleICECandidateEvent;
-  myPeerConnection.onnremovestream = handleRemoveStreamEvent;
+  myPeerConnection.ontrack = handleTrackEvent;
+  myPeerConnection.onnremovetrack = handleRemoveTrackEvent;
   myPeerConnection.oniceconnectionstatechange = handleICEConnectionStateChangeEvent;
   myPeerConnection.onicegatheringstatechange = handleICEGatheringStateChangeEvent;
   myPeerConnection.onsignalingstatechange = handleSignalingStateChangeEvent;
   myPeerConnection.onnegotiationneeded = handleNegotiationNeededEvent;
-
-  // Because the deprecation of addStream() and the addstream event is recent,
-  // we need to use those if addTrack() and track aren't available.
-
-  if (hasAddTrack) {
-    myPeerConnection.ontrack = handleTrackEvent;
-  } else {
-    myPeerConnection.onaddstream = handleAddStreamEvent;
-  }
 }
 
 // Called by the WebRTC layer to let us know when it's time to
@@ -323,28 +311,23 @@ function handleTrackEvent(event) {
   log("*** Track event");
   document.getElementById("received_video").srcObject = event.streams[0];
   document.getElementById("hangup-button").disabled = false;
+  
+  // Start watching the stream to see when it goes away.
+  
+  event.streams[0].onremovetrack = handleRemoveTrackEvent;
 }
 
-// Called by the WebRTC layer when a stream starts arriving from the
-// remote peer. We use this to update our user interface, in this
-// example.
-
-function handleAddStreamEvent(event) {
-  log("*** Stream added");
-  document.getElementById("received_video").srcObject = event.stream;
-  document.getElementById("hangup-button").disabled = false;
-}
-
-// An event handler which is called when the remote end of the connection
-// removes its stream. We consider this the same as hanging up the call.
-// It could just as well be treated as a "mute".
+// Called when a track is removed from the connection. When the number
+// of remaining tracks reaches 0, we treat this as a disconnect.
 //
 // Note that currently, the spec is hazy on exactly when this and other
 // "connection failure" scenarios should occur, so sometimes they simply
 // don't happen.
 
-function handleRemoveStreamEvent(event) {
-  log("*** Stream removed");
+function handleRemoveTrackEvent(event) {
+  log("*** Track removed");
+  
+  if (
   closeVideoCall();
 }
 
@@ -518,7 +501,7 @@ function hangUpCall() {
 
 // Handle a click on an item in the user list by inviting the clicked
 // user to video chat. Note that we don't actually send a message to
-// the callee here -- calling RTCPeerConnection.addStream() issues
+// the callee here -- adding media to an RTCPeerConnection issues
 // a |notificationneeded| event, so we'll let our handler for that
 // make the offer.
 
@@ -557,13 +540,8 @@ function invite(evt) {
       log("-- Local video stream obtained");
       document.getElementById("local_video").srcObject = localStream;
 
-      if (hasAddTrack) {
-        log("-- Adding tracks to the RTCPeerConnection");
-        localStream.getTracks().forEach(track => myPeerConnection.addTrack(track, localStream));
-      } else {
-        log("-- Adding stream to the RTCPeerConnection");
-        myPeerConnection.addStream(localStream);
-      }
+      log("-- Adding tracks to the RTCPeerConnection");
+      localStream.getTracks().forEach(track => myPeerConnection.addTrack(track, localStream));
     })
     .catch(handleGetUserMediaError);
   }
@@ -595,7 +573,6 @@ function handleVideoOfferMsg(msg) {
   .then(function(stream) {
     log("-- Local video stream obtained");
     localStream = stream;
-    document.getElementById("local_video").src = window.URL.createObjectURL(localStream);
     document.getElementById("local_video").srcObject = localStream;
 
     if (hasAddTrack) {
