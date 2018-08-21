@@ -11,9 +11,8 @@
 
 "use strict";
 
-const PORT_NUMBER = 3000;
-
-// Get our hostname
+// Get the hostname of the server; this will be used to open a
+// connection to the WebSocket server later.
 
 var myHostname = window.location.hostname;
 console.log("Server hostname: " + myHostname);
@@ -115,6 +114,9 @@ function connect() {
 
   connection = new WebSocket(serverUrl, "json");
 
+  // Handle the WebSocket "open" message; this occurs when the WebSocket
+  // connection is successfully opened.
+  
   connection.onopen = function(evt) {
     document.getElementById("text").disabled = false;
     document.getElementById("send").disabled = false;
@@ -132,28 +134,47 @@ function connect() {
     var time = new Date(msg.date);
     var timeStr = time.toLocaleTimeString();
 
+    // Handle the received JSON messages.
+    
     switch(msg.type) {
+      
+      // The "id" message is sent immediately after connecting, to tell
+      // the client what it's unique ID number is. We respond by sending
+      // our proposed username to the server.
+      
       case "id":
         clientID = msg.id;
         setUsername();
         break;
+      
+      // The "username" message is sent to indicate that a user has
+      // logged in.
 
       case "username":
         text = "<b>User <em>" + msg.name + "</em> signed in at " + timeStr + "</b><br>";
         break;
 
-      case "message":
-        text = "(" + timeStr + ") <b>" + msg.name + "</b>: " + msg.text + "<br>";
-        break;
-
+      // The "rejectusername" message is sent if the user name we
+      // propose in response to the "id" message is already taken.
+      
       case "rejectusername":
         myUsername = msg.name;
         text = "<b>Your username has been set to <em>" + myUsername +
           "</em> because the name you chose is in use.</b><br>";
         break;
 
+      // The "userlist" message is sent to update the list of users
+      // displayed in our sidebar.
+      
       case "userlist":      // Received an updated user list
         handleUserlistMsg(msg);
+        break;
+      
+      // The "message" message contains a message posted by one of the
+      // connected users (including potentially ourselves).
+
+      case "message":
+        text = "(" + timeStr + ") <b>" + msg.name + "</b>: " + msg.text + "<br>";
         break;
 
       // Signaling messages: these messages are used to trade WebRTC
@@ -195,6 +216,7 @@ function connect() {
 
 // Handles a click on the Send button (or pressing return/enter) by
 // building a "message" object and sending it to the server.
+
 function handleSendButton() {
   var msg = {
     text: document.getElementById("text").value,
@@ -209,6 +231,7 @@ function handleSendButton() {
 // Handler for keyboard events. This is used to intercept the return and
 // enter keys so that we can call send() to transmit the entered text
 // to the server.
+
 function handleKey(evt) {
   if (evt.keyCode === 13 || evt.keyCode === 14) {
     if (!document.getElementById("send").disabled) {
