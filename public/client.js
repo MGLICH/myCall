@@ -278,6 +278,7 @@ function createPeerConnection() {
 
   if (hasAddTrack) {
     myPeerConnection.ontrack = handleTrackEvent;
+    myPeerConnect
   } else {
     myPeerConnection.onaddstream = handleAddStreamEvent;
   }
@@ -358,6 +359,10 @@ function handleRemoveStreamEvent(event) {
 function handleRemoveTrackEvent(event) {
   var stream = document.getElementById("received_video").srcObject;
   var trackList = stream.getTracks();
+  
+  var track = event.track;
+  var kind = track.kind.charAt(0).toUpperCase() + track.kind.slice(1);
+  log(track.kind + " track removed from incoming stream: " + track.label);
   
   if (trackList.length == 0) {
     log("*** All tracks removed; closing connection");
@@ -477,6 +482,7 @@ function closeVideoCall() {
     myPeerConnection.onaddstream = null;  // For older implementations
     myPeerConnection.ontrack = null;      // For newer ones
     myPeerConnection.onremovestream = null;
+    myPeerConnection.onremovetrack = null;
     myPeerConnection.onnicecandidate = null;
     myPeerConnection.oniceconnectionstatechange = null;
     myPeerConnection.onsignalingstatechange = null;
