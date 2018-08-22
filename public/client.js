@@ -267,19 +267,20 @@ function createPeerConnection() {
   // Set up event handlers for the ICE negotiation process.
 
   myPeerConnection.onicecandidate = handleICECandidateEvent;
-  myPeerConnection.onnremovestream = handleRemoveStreamEvent;
   myPeerConnection.oniceconnectionstatechange = handleICEConnectionStateChangeEvent;
   myPeerConnection.onicegatheringstatechange = handleICEGatheringStateChangeEvent;
   myPeerConnection.onsignalingstatechange = handleSignalingStateChangeEvent;
   myPeerConnection.onnegotiationneeded = handleNegotiationNeededEvent;
 
   // Because the deprecation of addStream() and the addstream event is recent,
-  // we need to use those if addTrack() and track aren't available.
+  // we need to use those if addTrack() and track aren't available. The same
+  // goes for the removestream event vs. the newer removetrack event.
 
   if (hasAddTrack) {
     myPeerConnection.ontrack = handleTrackEvent;
-    myPeerConnect
+    myPeerConnection.onremovetrack = handleRemoveTrackEvent;
   } else {
+    myPeerConnection.onremovestream = handleRemoveStreamEvent;
     myPeerConnection.onaddstream = handleAddStreamEvent;
   }
 }
@@ -479,10 +480,14 @@ function closeVideoCall() {
     // Disconnect all our event listeners; we don't want stray events
     // to interfere with the hangup while it's ongoing.
 
-    myPeerConnection.onaddstream = null;  // For older implementations
-    myPeerConnection.ontrack = null;      // For newer ones
-    myPeerConnection.onremovestream = null;
-    myPeerConnection.onremovetrack = null;
+    if (hasAddTrack) {
+      myPeerConnection.ontrack = null;      // For newer implementations
+      myPeerConnection.onremovetrack = null;
+    } else {
+      myPeerConnection.onaddstream = null; // For older implementations
+      myPeerConnection.onremovestream = null;
+    }
+      
     myPeerConnection.onnicecandidate = null;
     myPeerConnection.oniceconnectionstatechange = null;
     myPeerConnection.onsignalingstatechange = null;
@@ -499,14 +504,14 @@ function closeVideoCall() {
       localVideo.srcObject.getTracks().forEach(track => track.stop());
     }
 
-    remoteVideo.src = null;
-    localVideo.src = null;
-
     // Close the peer connection
 
     myPeerConnection.close();
     myPeerConnection = null;
   }
+  
+  remoteVideo.src = null;
+  localVideo.src = null;
 
   // Disable the hangup button
 
