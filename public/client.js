@@ -348,6 +348,17 @@ function handleRemoveStreamEvent(event) {
   closeVideoCall();
 }
 
+// Handler for the |removetrack| event; this replaces the now obsolete
+// |removestream| event, and is received by the RTCPeerConnection
+// whenever a track is removed from the connection.
+//
+// We test to determine if the track removed was the only track left,
+// and if so, we close the connection.
+
+function handleRemoveTrackEvent(event) {
+  var stream = document.getElement
+}
+
 // Handles |icecandidate| events by forwarding the specified
 // ICE candidate (created by our local ICE agent) to the other
 // peer through the signaling server.
