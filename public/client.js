@@ -502,7 +502,7 @@ function hangUpCall() {
 
 // Handle a click on an item in the user list by inviting the clicked
 // user to video chat. Note that we don't actually send a message to
-// the callee here -- calling RTCPeerConnection.addStream() issues
+// the callee here -- adding tracks to the connection triggers a
 // a |notificationneeded| event, so we'll let our handler for that
 // make the offer.
 
@@ -541,7 +541,7 @@ function invite(evt) {
       log("-- Local video stream obtained");
       document.getElementById("local_video").srcObject = localStream;
 
-      log("-- Adding tracks to the RTCPeerConnection");
+      log("-- Adding incoming tracks to the RTCPeerConnection");
       localStream.getTracks().forEach(track => myPeerConnection.addTrack(track, localStream));
     })
     .catch(handleGetUserMediaError);
@@ -576,10 +576,8 @@ function handleVideoOfferMsg(msg) {
     localStream = stream;
     document.getElementById("local_video").srcObject = localStream;
 
-    log("-- Adding tracks to the RTCPeerConnection");
-    localStream.getTracks().forEach(track =>
-          myPeerConnection.addTrack(track, localStream)
-    );
+    log("-- Adding outgoing tracks to the RTCPeerConnection");
+    localStream.getTracks().forEach(track => myPeerConnection.addTrack(track, localStream));
   })
   .then(function() {
     log("------> Creating answer");
