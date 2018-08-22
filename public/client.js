@@ -356,7 +356,13 @@ function handleRemoveStreamEvent(event) {
 // and if so, we close the connection.
 
 function handleRemoveTrackEvent(event) {
-  var stream = document.getElement
+  var stream = document.getElementById("received_video").srcObject;
+  var trackList = stream.getTracks();
+  
+  if (trackList.length == 0) {
+    log("*** All tracks removed; closing connection");
+    closeVideoCall();
+  }
 }
 
 // Handles |icecandidate| events by forwarding the specified
