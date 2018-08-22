@@ -510,8 +510,8 @@ function closeVideoCall() {
     myPeerConnection = null;
   }
   
-  remoteVideo.src = null;
-  localVideo.src = null;
+  remoteVideo.removeAttribute("src");
+  localVideo.removeAttribute("src");
 
   // Disable the hangup button
 
