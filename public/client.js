@@ -254,29 +254,15 @@ function createPeerConnection() {
     ]
   });
 
-  // Do we have addTrack()? If not, we will use streams instead.
-
-  hasAddTrack = (myPeerConnection.addTrack !== undefined);
-
   // Set up event handlers for the ICE negotiation process.
 
   myPeerConnection.onicecandidate = handleICECandidateEvent;
+  myPeerConnection.ontrack = handleTrackEvent;
+  myPeerConnection.onremovetrack = handleRemoveTrackEvent;
   myPeerConnection.oniceconnectionstatechange = handleICEConnectionStateChangeEvent;
   myPeerConnection.onicegatheringstatechange = handleICEGatheringStateChangeEvent;
   myPeerConnection.onsignalingstatechange = handleSignalingStateChangeEvent;
   myPeerConnection.onnegotiationneeded = handleNegotiationNeededEvent;
-
-  // Because the deprecation of addStream() and the addstream event is recent,
-  // we need to use those if addTrack() and track aren't available. The same
-  // goes for the removestream event vs. the newer removetrack event.
-
-  if (hasAddTrack) {
-    myPeerConnection.ontrack = handleTrackEvent;
-    myPeerConnection.onremovetrack = handleRemoveTrackEvent;
-  } else {
-    myPeerConnection.onremovestream = handleRemoveStreamEvent;
-    myPeerConnection.onaddstream = handleAddStreamEvent;
-  }
 }
 
 // Called by the WebRTC layer to let us know when it's time to
@@ -321,32 +307,9 @@ function handleTrackEvent(event) {
   document.getElementById("hangup-button").disabled = false;
 }
 
-// Called by the WebRTC layer when a stream starts arriving from the
-// remote peer. We use this to update our user interface, in this
-// example.
-
-function handleAddStreamEvent(event) {
-  log("*** Stream added");
-  document.getElementById("received_video").srcObject = event.stream;
-  document.getElementById("hangup-button").disabled = false;
-}
-
-// An event handler which is called when the remote end of the connection
-// removes its stream. We consider this the same as hanging up the call.
-// It could just as well be treated as a "mute".
-//
-// Note that currently, the spec is hazy on exactly when this and other
-// "connection failure" scenarios should occur, so sometimes they simply
-// don't happen.
-
-function handleRemoveStreamEvent(event) {
-  log("*** Stream removed");
-  closeVideoCall();
-}
-
-// Handler for the |removetrack| event; this replaces the now obsolete
-// |removestream| event, and is received by the RTCPeerConnection
-// whenever a track is removed from the connection.
+// Handler for the |removetrack| event; this event is is received
+// by the RTCPeerConnection whenever a track is removed from the
+// connection's media stream.
 //
 // We test to determine if the track removed was the only track left,
 // and if so, we close the connection.
@@ -482,7 +445,8 @@ function closeVideoCall() {
     myPeerConnection.onicegatheringstatechange = null;
     myPeerConnection.onnotificationneeded = null;
 
-    // Stop the videos
+    // Stop the videos by iterating over their tracks, stopping each
+    // one by one.
 
     if (remoteVideo.srcObject) {
       remoteVideo.srcObject.getTracks().forEach(track => track.stop());
@@ -577,13 +541,8 @@ function invite(evt) {
       log("-- Local video stream obtained");
       document.getElementById("local_video").srcObject = localStream;
 
-      if (hasAddTrack) {
-        log("-- Adding tracks to the RTCPeerConnection");
-        localStream.getTracks().forEach(track => myPeerConnection.addTrack(track, localStream));
-      } else {
-        log("-- Adding stream to the RTCPeerConnection");
-        myPeerConnection.addStream(localStream);
-      }
+      log("-- Adding tracks to the RTCPeerConnection");
+      localStream.getTracks().forEach(track => myPeerConnection.addTrack(track, localStream));
     })
     .catch(handleGetUserMediaError);
   }
@@ -617,15 +576,10 @@ function handleVideoOfferMsg(msg) {
     localStream = stream;
     document.getElementById("local_video").srcObject = localStream;
 
-    if (hasAddTrack) {
-      log("-- Adding tracks to the RTCPeerConnection");
-      localStream.getTracks().forEach(track =>
-            myPeerConnection.addTrack(track, localStream)
-      );
-    } else {
-      log("-- Adding stream to the RTCPeerConnection");
-      myPeerConnection.addStream(localStream);
-    }
+    log("-- Adding tracks to the RTCPeerConnection");
+    localStream.getTracks().forEach(track =>
+          myPeerConnection.addTrack(track, localStream)
+    );
   })
   .then(function() {
     log("------> Creating answer");
