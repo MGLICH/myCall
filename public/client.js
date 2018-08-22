@@ -44,12 +44,6 @@ var myUsername = null;
 var targetUsername = null;      // To store username of other peer
 var myPeerConnection = null;    // RTCPeerConnection
 
-// To work both with and without addTrack() we need to note
-// if it's available. addTrack() was added in newer versions of
-// the WebRTC specification.
-
-var hasAddTrack = false;
-
 // Output logging information to console.
 
 function log(text) {
@@ -480,14 +474,8 @@ function closeVideoCall() {
     // Disconnect all our event listeners; we don't want stray events
     // to interfere with the hangup while it's ongoing.
 
-    if (hasAddTrack) {
-      myPeerConnection.ontrack = null;      // For newer implementations
-      myPeerConnection.onremovetrack = null;
-    } else {
-      myPeerConnection.onaddstream = null; // For older implementations
-      myPeerConnection.onremovestream = null;
-    }
-      
+    myPeerConnection.ontrack = null;
+    myPeerConnection.onremovetrack = null;
     myPeerConnection.onnicecandidate = null;
     myPeerConnection.oniceconnectionstatechange = null;
     myPeerConnection.onsignalingstatechange = null;
@@ -510,8 +498,12 @@ function closeVideoCall() {
     myPeerConnection = null;
   }
   
+  // Detach the streams from the video elements.
+  
   remoteVideo.removeAttribute("src");
+  remoteVideo.removeAttribute("srcObject");
   localVideo.removeAttribute("src");
+  localVideo.removeAttribute("srcObject");
 
   // Disable the hangup button
 
