@@ -323,7 +323,7 @@ function handleICECandidateEvent(event) {
 }
 
 // Handle |iceconnectionstatechange| events. This will detect
-// when the ICE connection is closed, failed, or disconnected.
+// when the ICE connection is closed, or failed.
 //
 // This is called when the state of the ICE agent changes.
 
@@ -333,7 +333,6 @@ function handleICEConnectionStateChangeEvent(event) {
   switch(myPeerConnection.iceConnectionState) {
     case "closed":
     case "failed":
-    case "disconnected":
       closeVideoCall();
       break;
   }
