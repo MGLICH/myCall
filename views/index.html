@@ -22,16 +22,22 @@
   <link href="/style.css" rel="stylesheet">
   <script src="/client.js"></script>
   <script src="/adapter.js"></script>
+   <link rel="manifest" href="manifest.json" />
+  <script>
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("./sw.js");
+      }
+    </script>
 </head>
 <body
 <div class="container">
   <div class="infobox">
-  <p>Enter a username: <input id="name" type="text" maxlength="12" required autocomplete="username" inputmode="verbatim" placeholder="Username">
-      <input type="button" name="login" value="Log in" onclick="connect()"></p>  
-    <p class="mdn-disclaimer"> 
+  
+    <p class="mdn-disclaimer">    
     </p>
     <p>Click a username in the user list to ask them to enter a one-on-one video chat with you.</p>
-    
+    <p>Enter a username: <input id="name" type="text" maxlength="12" required autocomplete="username" inputmode="verbatim" placeholder="Username">
+      <input type="button" name="login" value="Log in" onclick="connect()"></p>
   </div>
   <ul class="userlistbox"></ul>
   <div class="chatbox"></div>
@@ -50,6 +56,6 @@
     <input id="text" type="text" name="text" size="100" maxlength="256" placeholder="Say something meaningful..." autocomplete="off" onkeyup="handleKey(event)" disabled>
     <input type="button" id="send" name="send" value="Send" onclick="handleSendButton()" disabled>
   </div>
-</div>
+ 
 </body>
 </html>

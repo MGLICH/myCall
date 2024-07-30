@@ -19,6 +19,7 @@ html, body {
 }
 
 .mdn-disclaimer {
+  display:none;
   font-size:18px;
   background-color: #ddd;
   color: black;
@@ -47,8 +48,8 @@ html, body {
   grid-template-areas: "infobox infobox infobox"
   "userlistbox chatbox video-container"
   "empty-container chat-controls video-container";
-  grid-template-columns: 16em 1fr 500px;
-  grid-template-rows: 16em 1fr 5em;
+  grid-template-columns: 6em 20% 500px;
+  grid-template-rows: 16em 1fr 15em;
   grid-gap: 1rem;
 }
 
@@ -58,6 +59,7 @@ html, body {
 }
 
 .userlistbox {
+ font-size:larger;
   grid-area: userlistbox;
   border: 1px solid black;
   width:100%;
