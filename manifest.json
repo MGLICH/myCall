@@ -35,97 +35,13 @@
       "src": "./favicon-512.png",
       "sizes": "512x512"
     }
-  ],
-  "screenshots": [
-    {
-      "src": "./screenshot-playlist.png",
-      "sizes": "1280x720",
-      "platform": "wide",
-      "label": "The main PWAmp user interface, showing a list of songs, and playback buttons."
-    },
-    {
-      "src": "./screenshot-visualizer.png",
-      "sizes": "1280x720",
-      "platform": "wide",
-      "label": "The PWAmp visualizer, showing the current song, the playback buttons, and a colorful visualization of the current song."
-    },
-    {
-      "src": "./screenshot-widget.png",
-      "sizes": "600x400",
-      "label": "The PWAmp mini-player widget"
-    }
-  ],
-  "file_handlers": [
-    {
-      "action": "./",
-      "accept": {
-        "text/plain": [
-          ".pwampskin"
-        ]
-      }
-    },
-    {
-      "action": "./",
-      "accept": {
-        "audio/wav": [
-          ".wav"
-        ],
-        "audio/x-wav": [
-          ".wav"
-        ],
-        "audio/mpeg": [
-          ".mp3"
-        ],
-        "audio/mp4": [
-          ".mp4"
-        ],
-        "audio/aac": [
-          ".adts"
-        ],
-        "audio/ogg": [
-          ".ogg"
-        ],
-        "application/ogg": [
-          ".ogg"
-        ],
-        "audio/webm": [
-          ".webm"
-        ],
-        "audio/flac": [
-          ".flac"
-        ]
-      }
-    }
-  ],
+  ], 
+  
   "protocol_handlers": [
     {
       "protocol": "web+chat",
       "url": "./?cmd=%s"
     }
-  ],
-  "share_target": {
-    "action": "./handle-shared-song",
-    "method": "POST",
-    "enctype": "multipart/form-data",
-    "params": {
-      "title": "title",
-      "files": [
-        {
-          "name": "audioFiles",
-          "accept": [
-            "audio/wav",
-            "audio/x-wav",
-            "audio/mpeg",
-            "audio/mp4",
-            "audio/aac",
-            "audio/ogg",
-            "application/ogg",
-            "audio/webm",
-            "audio/flac"
-          ]
-        }
-      ]
-    }
-  }
+  ] 
  
 }

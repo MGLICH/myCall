@@ -1,11 +1,11 @@
-const VERSION = "v41";
+const VERSION = "v44";
 const CACHE_NAME = `pwamp-${VERSION}`;
 
 // Those are all the resources our app needs to work.
 // We'll cache them on install.
 const INITIAL_CACHED_RESOURCES = [
   "./",
-  "./index.html", 
+  "./viesw//index.html", 
   "./public/style.css",
   "./public/adapter.js",
   "./public/client.js",
