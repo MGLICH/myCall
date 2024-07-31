@@ -48,7 +48,7 @@ html, body {
   grid-template-areas: "infobox infobox infobox"
   "userlistbox chatbox video-container"
   "empty-container chat-controls video-container";
-  grid-template-columns: 6em 20% 500px;
+  grid-template-columns: 6em 10% 500px;
   grid-template-rows: 16em 1fr 15em;
   grid-gap: 1rem;
 }
