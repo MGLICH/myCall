@@ -8,9 +8,6 @@
   "theme_color": "#181c25",
   "background_color": "#181c25",
   "display": "standalone",
-  "display_override": [
-    "window-controls-overlay"
-  ],
   "edge_side_panel": {
     "preferred_width": 496
   },
