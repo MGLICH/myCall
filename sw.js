@@ -5,7 +5,7 @@ const CACHE_NAME = `pwamp-${VERSION}`;
 // We'll cache them on install.
 const INITIAL_CACHED_RESOURCES = [
   "./",
-  "./viesw//index.html", 
+  "./views//index.html", 
   "./public/style.css",
   "./public/adapter.js",
   "./public/client.js",
@@ -45,7 +45,7 @@ self.addEventListener("activate", event => {
         return caches.delete(name);
       }
     }));
-    await clients.claim();
+  //  await clients.claim();
   })());
 });
 
@@ -90,4 +90,4 @@ self.addEventListener('fetch', event => {
 });
 
 // Handle the mini-player widget updates in another script.
-importScripts('./sw-widgets.js');
+ 
