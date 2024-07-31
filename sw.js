@@ -85,9 +85,6 @@ self.addEventListener("fetch", event => {
 });
 
 // Special fetch handler for song file sharing.
-self.addEventListener('fetch', event => {
-
-});
-
+ 
 // Handle the mini-player widget updates in another script.
  
